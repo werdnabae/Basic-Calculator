@@ -6,6 +6,7 @@ root.configure(bg = "#232323")
 
 #creates input box
 operator = ""
+finishedCalc = False
 text_input = StringVar()
 e = Entry(root, font = "Verdana 50", fg = "white", bg = "#333333", width = 10, borderwidth = 0, insertbackground = "#333333", cursor = "arrow", justify = 'right', textvariable = text_input)
 e.grid(row = 0, column = 0, columnspan = 3, padx = 10, pady = 10)
@@ -13,6 +14,11 @@ e.grid(row = 0, column = 0, columnspan = 3, padx = 10, pady = 10)
 #when number or operation is clicked
 def button_click(sym):
     global operator
+    global finishedCalc
+    if ((sym == 0) or (sym == 1) or (sym == 2)or (sym == 3)or (sym == 4)or (sym == 5)or (sym == 6)or (sym == 7)or (sym == 8)or (sym == 9)):
+        if finishedCalc:
+            operator = ""
+    finishedCalc = False
     operator = operator + str(sym) 
     text_input.set(operator)
 
@@ -25,13 +31,15 @@ def button_clear():
 #if equals button is clicked
 def button_equals():
     global operator
+    global finishedCalc
+    finishedCalc = True
     sumup = eval(operator)
     if isinstance(sumup, int):
         text_input.set(str(sumup))
     else:
-        text_input.set(str('%.8g' % sumup))
-    operator = ""
-
+        text_input.set(str('%.8g' % sumup))   
+    operator = str(sumup)
+    
 #creates buttons
 button1 = Button(root, text = "1", padx = 50, pady = 25, font = "Segoe 18", fg = "white", bg = "#232323", bd = 0, command=  lambda: button_click(1))
 button2 = Button(root, text = "2", padx = 50, pady = 25, font = "Segoe 18", fg = "white", bg = "#232323", bd = 0, command = lambda: button_click(2))
@@ -48,7 +56,7 @@ buttonSub = Button(root, text = "-", padx = 50, pady = 25, font = "Segoe 21", fg
 buttonMul = Button(root, text = "*", padx = 50, pady = 25, font = "Segoe 21", fg = "white", bg = "#232323", bd = 0, command =  lambda: button_click("*"))
 buttonDiv = Button(root, text = "/", padx = 50, pady = 25, font = "Segoe 18", fg = "white", bg = "#232323", bd = 0, command =  lambda: button_click("/"))
 buttonDot = Button(root, text = ".", padx = 50, pady = 25, font = "Segoe 18", fg = "white", bg = "#232323", bd = 0, command =  lambda: button_click("."))
-buttonEqual = Button(root, text = "=", padx = 49.5, pady = 25, font = "Segoe 18", fg = "white", bg = "#5F5FEE", bd = 0, command = button_equals)
+buttonEqual = Button(root, text = "=", padx = 49.5, pady = 25, font = "Segoe 18", fg = "white", bg = "#5F5FEE", bd = 0, command = lambda: button_equals())
 buttonClear = Button(root, text = "c", padx = 50, pady = 25, font = "Segoe 18", fg = "white", bg = "#232323", bd = 0, command = button_clear)
 
 #places buttons
